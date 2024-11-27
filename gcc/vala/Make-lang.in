@@ -1,0 +1,77 @@
+GCV_INSTALL_NAME := $(shell echo gcv|sed '$(program_transform_name)')
+GCV_TARGET_INSTALL_NAME := $(target_noncanonical)-$(shell echo gcv|sed '$(program_transform_name)')
+
+vala: vala1$(exeext)
+
+.PHONY: vala
+
+# Driver
+
+GCV_OBJS = \
+   $(GCC_OBJS) \
+   vala/valaspec.o \
+   $(END)
+
+gcv$(exeext): $(GCV_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
+	+$(LINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	  $(GCV_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a \
+	  $(EXTRA_GCC_LIBS) $(LIBS)
+
+# The compiler proper
+
+vala_OBJS = \
+    vala/vala-lang.o \
+    $(END)
+
+vala1$(exeext): attribs.o $(vala_OBJS) $(BACKEND) $(LIBDEPS)
+	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
+	      attribs.o $(vala_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS)
+
+vala.all.cross:
+
+vala.start.encap: gcv$(exeext)
+vala.rest.encap:
+
+vala.install-common: installdirs
+	-rm -f $(DESTDIR)$(bindir)/$(GCV_INSTALL_NAME)$(exeext)
+	$(INSTALL_PROGRAM) gccvala$(exeext) $(DESTDIR)$(bindir)/$(GCV_INSTALL_NAME)$(exeext)
+	rm -f $(DESTDIR)$(bindir)/$(GCV_TARGET_INSTALL_NAME)$(exeext); \
+	( cd $(DESTDIR)$(bindir) && \
+      $(LN) $(GCV_INSTALL_NAME)$(exeext) $(GCV_TARGET_INSTALL_NAME)$(exeext) ); \
+
+# Required goals, they still do nothing
+vala.install-man:
+vala.install-info:
+vala.install-pdf:
+vala.install-plugin:
+vala.install-html:
+vala.info:
+vala.dvi:
+vala.pdf:
+vala.html:
+vala.man:
+vala.mostlyclean:
+vala.clean:
+vala.distclean:
+vala.maintainer-clean:
+
+# make uninstall
+vala.uninstall:
+	-rm -f gcv$(exeext) vala1$(exeext)
+	-rm -f $(vala_OBJS)
+
+# Used for handling bootstrap
+vala.stage1: stage1-start
+	-mv vala/*$(objext) stage1/vala
+vala.stage2: stage2-start
+	-mv vala/*$(objext) stage2/vala
+vala.stage3: stage3-start
+	-mv vala/*$(objext) stage3/vala
+vala.stage4: stage4-start
+	-mv vala/*$(objext) stage4/vala
+vala.stageprofile: stageprofile-start
+	-mv vala/*$(objext) stageprofile/vala
+vala.stagefeedback: stagefeedback-start
+	-mv vala/*$(objext) stagefeedback/vala
+
+selftest-vala: 

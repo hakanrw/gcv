@@ -1,0 +1,12 @@
+language="vala"
+
+compilers="vala1\$(exeext)"
+
+target_libs=""
+
+gtfiles="\$(srcdir)/vala/vala-lang.cc"
+
+lang_requires_boot_languages=c,c++
+
+# Do not build by default
+build_by_default="no"
