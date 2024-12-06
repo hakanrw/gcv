@@ -1,5 +1,5 @@
 /* vala-lang.cc -- Vala frontend gcc interface.
-   Copyright (C) 2009-2024 Free Software Foundation, Inc.
+   Copyright (C) 2024 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with GCC; see the file COPYING3.  If not see
 <http://www.gnu.org/licenses/>.  */
 
+#include "valacfrontend.h"
+
 #include "config.h"
 #include "system.h"
 #include "coretypes.h"
@@ -33,6 +35,10 @@ along with GCC; see the file COPYING3.  If not see
 #include "langhooks.h"
 #include "langhooks-def.h"
 #include "common/common-target.h"
+
+/* Front end instance */
+
+ValaFrontend* front_end;
 
 /* Language-dependent contents of a type.  */
 
@@ -86,13 +92,17 @@ vala_langhook_init (void)
 
   build_common_builtin_nodes ();
 
+  front_end = vala_frontend_new ();
+
   return true;
 }
 
 static void
 vala_langhook_parse_file (void)
 {
-  fprintf(stderr, "Hello gcv!\n");
+  fprintf(stderr, "Hello from vala1!\n");
+  vala_frontend_parse_input_files (front_end, (gchar**) in_fnames, num_in_fnames, flag_syntax_only,
+                        /* TODO? vala_require_return_statement */ false);
 }
 
 static tree
@@ -183,7 +193,7 @@ convert (tree type, tree expr)
 }
 
 #undef LANG_HOOKS_NAME
-#define LANG_HOOKS_NAME "Vala"
+#define LANG_HOOKS_NAME "GNU Vala"
 
 #undef LANG_HOOKS_INIT
 #define LANG_HOOKS_INIT vala_langhook_init

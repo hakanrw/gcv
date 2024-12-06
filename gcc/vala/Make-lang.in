@@ -19,13 +19,237 @@ gcv$(exeext): $(GCV_OBJS) $(EXTRA_GCC_OBJS) libcommon-target.a $(LIBDEPS)
 
 # The compiler proper
 
+valac_DIR = vala/valac
+
+# Gee
+
+valac_gee_DIR = $(valac_DIR)/gee
+valac_gee_SOURCES = \
+	$(valac_gee_DIR)/arraylist.vala \
+	$(valac_gee_DIR)/collection.vala \
+	$(valac_gee_DIR)/hashmap.vala \
+	$(valac_gee_DIR)/hashset.vala \
+	$(valac_gee_DIR)/iterable.vala \
+	$(valac_gee_DIR)/mapiterator.vala \
+	$(valac_gee_DIR)/iterator.vala \
+	$(valac_gee_DIR)/list.vala \
+	$(valac_gee_DIR)/map.vala \
+	$(valac_gee_DIR)/set.vala \
+	$(valac_gee_DIR)/timsort.vala \
+	$(NULL)
+
+valac_gee_OBJS = $(patsubst $(valac_gee_DIR)/%,vala/%, $(valac_gee_SOURCES:.vala=.vala.o))
+valac_gee_VAPI = vala/gee.vapi
+
+# Parser
+
+valac_vala_DIR = $(valac_DIR)/vala
+valac_vala_SOURCES = \
+	$(valac_vala_DIR)/valaaddressofexpression.vala \
+	$(valac_vala_DIR)/valaarraycopymethod.vala \
+	$(valac_vala_DIR)/valaarraycreationexpression.vala \
+	$(valac_vala_DIR)/valaarraylengthfield.vala \
+	$(valac_vala_DIR)/valaarraymovemethod.vala \
+	$(valac_vala_DIR)/valaarrayresizemethod.vala \
+	$(valac_vala_DIR)/valaarraytype.vala \
+	$(valac_vala_DIR)/valaassignment.vala \
+	$(valac_vala_DIR)/valaattribute.vala \
+	$(valac_vala_DIR)/valabaseaccess.vala \
+	$(valac_vala_DIR)/valabasicblock.vala \
+	$(valac_vala_DIR)/valabinaryexpression.vala \
+	$(valac_vala_DIR)/valablock.vala \
+	$(valac_vala_DIR)/valabooleanliteral.vala \
+	$(valac_vala_DIR)/valabooleantype.vala \
+	$(valac_vala_DIR)/valabreakstatement.vala \
+	$(valac_vala_DIR)/valacallableexpression.vala \
+	$(valac_vala_DIR)/valacallabletype.vala \
+	$(valac_vala_DIR)/valacallable.vala \
+	$(valac_vala_DIR)/valacastexpression.vala \
+	$(valac_vala_DIR)/valacatchclause.vala \
+	$(valac_vala_DIR)/valacharacterliteral.vala \
+	$(valac_vala_DIR)/valaclasstype.vala \
+	$(valac_vala_DIR)/valaclass.vala \
+	$(valac_vala_DIR)/valacodecontext.vala \
+	$(valac_vala_DIR)/valacodegenerator.vala \
+	$(valac_vala_DIR)/valacodenode.vala \
+	$(valac_vala_DIR)/valacodevisitor.vala \
+	$(valac_vala_DIR)/valacodewriter.vala \
+	$(valac_vala_DIR)/valacomment.vala \
+	$(valac_vala_DIR)/valaconditionalexpression.vala \
+	$(valac_vala_DIR)/valaconstant.vala \
+	$(valac_vala_DIR)/valaconstructor.vala \
+	$(valac_vala_DIR)/valacontinuestatement.vala \
+	$(valac_vala_DIR)/valacreationmethod.vala \
+	$(valac_vala_DIR)/valadatatype.vala \
+	$(valac_vala_DIR)/valadeclarationstatement.vala \
+	$(valac_vala_DIR)/valadelegatedestroyfield.vala \
+	$(valac_vala_DIR)/valadelegatetargetfield.vala \
+	$(valac_vala_DIR)/valadelegatetype.vala \
+	$(valac_vala_DIR)/valadelegate.vala \
+	$(valac_vala_DIR)/valadeletestatement.vala \
+	$(valac_vala_DIR)/valadestructor.vala \
+	$(valac_vala_DIR)/valadostatement.vala \
+	$(valac_vala_DIR)/valadynamicmethod.vala \
+	$(valac_vala_DIR)/valadynamicproperty.vala \
+	$(valac_vala_DIR)/valadynamicsignal.vala \
+	$(valac_vala_DIR)/valaelementaccess.vala \
+	$(valac_vala_DIR)/valaemptystatement.vala \
+	$(valac_vala_DIR)/valaenum.vala \
+	$(valac_vala_DIR)/valaenumvaluetype.vala \
+	$(valac_vala_DIR)/valaenumvalue.vala \
+	$(valac_vala_DIR)/valaerrorcode.vala \
+	$(valac_vala_DIR)/valaerrordomain.vala \
+	$(valac_vala_DIR)/valaerrortype.vala \
+	$(valac_vala_DIR)/valaexpressionstatement.vala \
+	$(valac_vala_DIR)/valaexpression.vala \
+	$(valac_vala_DIR)/valafieldprototype.vala \
+	$(valac_vala_DIR)/valafield.vala \
+	$(valac_vala_DIR)/valafloatingtype.vala \
+	$(valac_vala_DIR)/valaflowanalyzer.vala \
+	$(valac_vala_DIR)/valaforeachstatement.vala \
+	$(valac_vala_DIR)/valaforstatement.vala \
+	$(valac_vala_DIR)/valagenericdestroyfield.vala \
+	$(valac_vala_DIR)/valagenericdupfield.vala \
+	$(valac_vala_DIR)/valagenericsymbol.vala \
+	$(valac_vala_DIR)/valagenerictype.vala \
+	$(valac_vala_DIR)/valagenieparser.vala \
+	$(valac_vala_DIR)/valageniescanner.vala \
+	$(valac_vala_DIR)/valagenietokentype.vala \
+	$(valac_vala_DIR)/valagircomment.vala \
+	$(valac_vala_DIR)/valagirparser.vala \
+	$(valac_vala_DIR)/valaifstatement.vala \
+	$(valac_vala_DIR)/valainitializerlist.vala \
+	$(valac_vala_DIR)/valaintegerliteral.vala \
+	$(valac_vala_DIR)/valaintegertype.vala \
+	$(valac_vala_DIR)/valainterfacetype.vala \
+	$(valac_vala_DIR)/valainterface.vala \
+	$(valac_vala_DIR)/valainvalidexpression.vala \
+	$(valac_vala_DIR)/valainvalidtype.vala \
+	$(valac_vala_DIR)/valalambdaexpression.vala \
+	$(valac_vala_DIR)/valaliteral.vala \
+	$(valac_vala_DIR)/valalocalvariable.vala \
+	$(valac_vala_DIR)/valalockable.vala \
+	$(valac_vala_DIR)/valalockstatement.vala \
+	$(valac_vala_DIR)/valaloopstatement.vala \
+	$(valac_vala_DIR)/valaloop.vala \
+	$(valac_vala_DIR)/valamarkupreader.vala \
+	$(valac_vala_DIR)/valamemberaccess.vala \
+	$(valac_vala_DIR)/valamemberinitializer.vala \
+	$(valac_vala_DIR)/valamethodcall.vala \
+	$(valac_vala_DIR)/valamethodtype.vala \
+	$(valac_vala_DIR)/valamethod.vala \
+	$(valac_vala_DIR)/valanamedargument.vala \
+	$(valac_vala_DIR)/valanamespace.vala \
+	$(valac_vala_DIR)/valanullliteral.vala \
+	$(valac_vala_DIR)/valanulltype.vala \
+	$(valac_vala_DIR)/valaobjectcreationexpression.vala \
+	$(valac_vala_DIR)/valaobjecttypesymbol.vala \
+	$(valac_vala_DIR)/valaobjecttype.vala \
+	$(valac_vala_DIR)/valaparameter.vala \
+	$(valac_vala_DIR)/valaparser.vala \
+	$(valac_vala_DIR)/valaphifunction.vala \
+	$(valac_vala_DIR)/valapointerindirection.vala \
+	$(valac_vala_DIR)/valapointertype.vala \
+	$(valac_vala_DIR)/valapostfixexpression.vala \
+	$(valac_vala_DIR)/valaprofile.vala \
+	$(valac_vala_DIR)/valapropertyaccessor.vala \
+	$(valac_vala_DIR)/valapropertyprototype.vala \
+	$(valac_vala_DIR)/valaproperty.vala \
+	$(valac_vala_DIR)/valarealliteral.vala \
+	$(valac_vala_DIR)/valareferencetransferexpression.vala \
+	$(valac_vala_DIR)/valareferencetype.vala \
+	$(valac_vala_DIR)/valaregexliteral.vala \
+	$(valac_vala_DIR)/valareport.vala \
+	$(valac_vala_DIR)/valareturnstatement.vala \
+	$(valac_vala_DIR)/valascanner.vala \
+	$(valac_vala_DIR)/valascope.vala \
+	$(valac_vala_DIR)/valasemanticanalyzer.vala \
+	$(valac_vala_DIR)/valasignaltype.vala \
+	$(valac_vala_DIR)/valasignal.vala \
+	$(valac_vala_DIR)/valasizeofexpression.vala \
+	$(valac_vala_DIR)/valasliceexpression.vala \
+	$(valac_vala_DIR)/valasourcefile.vala \
+	$(valac_vala_DIR)/valasourcelocation.vala \
+	$(valac_vala_DIR)/valasourcereference.vala \
+	$(valac_vala_DIR)/valastatementlist.vala \
+	$(valac_vala_DIR)/valastatement.vala \
+	$(valac_vala_DIR)/valastringliteral.vala \
+	$(valac_vala_DIR)/valastruct.vala \
+	$(valac_vala_DIR)/valastructvaluetype.vala \
+	$(valac_vala_DIR)/valasubroutine.vala \
+	$(valac_vala_DIR)/valaswitchlabel.vala \
+	$(valac_vala_DIR)/valaswitchsection.vala \
+	$(valac_vala_DIR)/valaswitchstatement.vala \
+	$(valac_vala_DIR)/valasymbolresolver.vala \
+	$(valac_vala_DIR)/valasymbol.vala \
+	$(valac_vala_DIR)/valatargetvalue.vala \
+	$(valac_vala_DIR)/valatemplate.vala \
+	$(valac_vala_DIR)/valathrowstatement.vala \
+	$(valac_vala_DIR)/valatokentype.vala \
+	$(valac_vala_DIR)/valatraversevisitor.vala \
+	$(valac_vala_DIR)/valatrystatement.vala \
+	$(valac_vala_DIR)/valatuple.vala \
+	$(valac_vala_DIR)/valatypecheck.vala \
+	$(valac_vala_DIR)/valatypeofexpression.vala \
+	$(valac_vala_DIR)/valatypeparameter.vala \
+	$(valac_vala_DIR)/valatypesymbol.vala \
+	$(valac_vala_DIR)/valaunaryexpression.vala \
+	$(valac_vala_DIR)/valaunlockstatement.vala \
+	$(valac_vala_DIR)/valaunresolvedsymbol.vala \
+	$(valac_vala_DIR)/valaunresolvedtype.vala \
+	$(valac_vala_DIR)/valausedattr.vala \
+	$(valac_vala_DIR)/valausingdirective.vala \
+	$(valac_vala_DIR)/valavaluetype.vala \
+	$(valac_vala_DIR)/valavariable.vala \
+	$(valac_vala_DIR)/valavartype.vala \
+	$(valac_vala_DIR)/valaversionattribute.vala \
+	vala/valaversion.vala \
+	$(valac_vala_DIR)/valavoidtype.vala \
+	$(valac_vala_DIR)/valawhilestatement.vala \
+	$(valac_vala_DIR)/valawithstatement.vala \
+	$(valac_vala_DIR)/valayieldstatement.vala \
+	$(NULL)
+
+valac_vala_OBJS = $(patsubst $(valac_vala_DIR)/%,vala/%, $(valac_vala_SOURCES:.vala=.o))
+valac_vala_VAPI = vala/vala.vapi
+
+# Front end
+
+valac_frontend_DIR = $(valac_DIR)/frontend
+valac_frontend_SOURCES = \
+        $(valac_frontend_DIR)/valafrontend.vala \
+        $(NULL)
+
+valac_frontend_OBJS = $(patsubst $(valac_frontend_DIR)/%,vala/%, $(valac_frontend_SOURCES:.vala=.o))
+valac_frontend_VAPI = vala/frontend.vapi
+
+# Back end interface
+
+valac_backend_DIR = $(valac_DIR)/backend
+
+valac_globals_VAPI = $(valac_backend_DIR)/globals.vapi
+valac_diagnostics_VAPI = $(valac_backend_DIR)/diagnostics.vapi
+valac_linemap_VAPI = $(valac_backend_DIR)/linemap.vapi
+valac_location_VAPI = $(valac_backend_DIR)/location.vapi
+
+VALAC_BACKEND_VAPIS = $(valac_globals_VAPI) $(valac_diagnostics_VAPI) $(valac_linemap_VAPI) $(valac_location_VAPI)
+valac_backend_VAPI = vala/backend.vapi
+
+# Front end proper
+
 vala_OBJS = \
-    vala/vala-lang.o \
-    $(END)
+	vala/vala-lang.o \
+	vala/vala-backend.o \
+	vala/vala-linemap.o \
+	vala/vala-diagnostics.o \
+	$(valac_gee_OBJS) \
+	$(valac_vala_OBJS) \
+	$(valac_frontend_OBJS) \
+	$(END)
 
 vala1$(exeext): attribs.o $(vala_OBJS) $(BACKEND) $(LIBDEPS)
 	+$(LLINKER) $(ALL_LINKERFLAGS) $(LDFLAGS) -o $@ \
-	      attribs.o $(vala_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS)
+	      attribs.o $(vala_OBJS) $(BACKEND) $(LIBS) $(BACKENDLIBS) -lgobject-2.0 -lglib-2.0
 
 vala.all.cross:
 
@@ -37,7 +261,7 @@ vala.install-common: installdirs
 	$(INSTALL_PROGRAM) gccvala$(exeext) $(DESTDIR)$(bindir)/$(GCV_INSTALL_NAME)$(exeext)
 	rm -f $(DESTDIR)$(bindir)/$(GCV_TARGET_INSTALL_NAME)$(exeext); \
 	( cd $(DESTDIR)$(bindir) && \
-      $(LN) $(GCV_INSTALL_NAME)$(exeext) $(GCV_TARGET_INSTALL_NAME)$(exeext) ); \
+	   $(LN) $(GCV_INSTALL_NAME)$(exeext) $(GCV_TARGET_INSTALL_NAME)$(exeext) );
 
 # Required goals, they still do nothing
 vala.install-man:
@@ -54,6 +278,10 @@ vala.mostlyclean:
 vala.clean:
 vala.distclean:
 vala.maintainer-clean:
+vala.tags: force
+	cd $(srcdir)/vala; \
+	$(ETAGS) -o TAGS.sub *.cc *.h valac/vala/*.vala; \
+	$(ETAGS) --include TAGS.sub --include ../TAGS.sub
 
 # make uninstall
 vala.uninstall:
@@ -75,3 +303,58 @@ vala.stagefeedback: stagefeedback-start
 	-mv vala/*$(objext) stagefeedback/vala
 
 selftest-vala: 
+
+$(valac_backend_VAPI): $(VALAC_BACKEND_VAPIS)
+	cat $^ > $@
+
+$(valac_gee_OBJS): $(valac_gee_VAPI)
+
+$(valac_gee_VAPI): $(valac_gee_SOURCES)
+	rm -f vala/gee.vapi
+	cd vala; valac \
+	$(addprefix ../, $^) \
+	-c -H valacgee.h \
+	--vapidir ../$(srcdir)/$(valac_DIR)/vapi --pkg gobject-2.0 \
+	--library gee
+
+$(valac_vala_OBJS): $(valac_vala_VAPI)
+
+$(valac_vala_VAPI): $(valac_vala_SOURCES) $(valac_gee_VAPI) $(valac_backend_VAPI)
+	rm -f vala/vala.vapi
+	cd vala; valac \
+	$(filter %.vala, $(addprefix ../, $^)) \
+	-c -H valacvala.h -g --save-temps \
+	--vapidir ../$(srcdir)/$(valac_DIR)/vapi --pkg gobject-2.0 --pkg glib-2.0 \
+	--vapidir . --pkg gee --pkg backend \
+	--includedir=. -X -I. -X -I../$(srcdir)/vala \
+	--library vala
+
+$(valac_frontend_OBJS): $(valac_frontend_VAPI)
+
+$(valac_frontend_VAPI): $(valac_frontend_SOURCES) $(valac_vala_VAPI) $(valac_gee_VAPI) $(valac_backend_VAPI)
+	rm -f vala/frontend.vapi
+	cd vala; valac \
+	$(filter %.vala, $(addprefix ../, $^)) \
+	-c -H valacfrontend.h -g --save-temps \
+	--vapidir ../$(srcdir)/$(valac_DIR)/vapi --pkg gobject-2.0 --pkg glib-2.0 \
+	--vapidir . --pkg vala --pkg gee --pkg backend \
+	--includedir=. -X -I. -X -I../$(srcdir)/vala  \
+	--library frontend
+
+VALA_MAJOR_VERSION = 0
+VALA_MINOR_VERSION = 57
+VALA_MICRO_VERSION = 11
+API_VERSION = 0.58
+PACKAGE_VERSION = -0.58
+
+vala/valaversion.vala:
+	sed -e "s#\@VALA_MAJOR_VERSION\@#$(VALA_MAJOR_VERSION)#g" \
+		-e "s#\@VALA_MINOR_VERSION\@#$(VALA_MINOR_VERSION)#g" \
+		-e "s#\@VALA_MICRO_VERSION\@#$(VALA_MICRO_VERSION)#g" \
+		-e "s#\@API_VERSION\@#$(API_VERSION)#g" \
+		-e "s#\@PACKAGE_VERSION\@#$(PACKAGE_VERSION)#g" \
+		< $(srcdir)/$(valac_DIR)/$@.in > $@
+
+vala/vala-lang.o: vala/vala-lang.cc $(valac_frontend_VAPI)
+	$(COMPILE) $< -Ivala -I/usr/include/glib-2.0/ -I/usr/lib64/glib-2.0/include/
+	$(POSTCOMPILE)
