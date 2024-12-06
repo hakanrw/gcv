@@ -1,0 +1,3 @@
+[submodule "gcc/vala/valac"]
+	path = gcc/vala/valac
+	url = https://github.com/hakanrw/valac-gcv
